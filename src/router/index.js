@@ -31,6 +31,26 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "usercrud" */ "../views/UserCrudView.vue"),
   },
+  {
+    path: "/user/login",
+    name: "Login",
+    component: () =>
+      import(/* webpackChunkName: "login" */ "../components/login/Login.vue"),
+  },
+  {
+    path: "/user/signup",
+    name: "Registro",
+    component: () =>
+      import(/* webpackChunkName: "signup" */ "../components/login/Signup.vue"),
+  },
+  {
+    path: "/user/profile",
+    name: "Perfil",
+    component: () =>
+      import(
+        /* webpackChunkName: "profile" */ "../components/login/Profile.vue"
+      ),
+  },
 ];
 
 const router = new VueRouter({

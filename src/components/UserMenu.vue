@@ -12,16 +12,41 @@
     <nav>
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> |
-      <router-link to="/crud">CRUD</router-link>
+      <router-link to="/crud">CRUD</router-link> |
     </nav>
-    <el-avatar
-      src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
-    ></el-avatar>
+    <div class="flex flex-row items-center gap-2">
+      <router-link to="/user/profile"
+        ><el-avatar v-if="userData" :src="this.userData.photoURL"></el-avatar
+      ></router-link>
+      <el-button v-if="!userData" type="primary" @click="goToLogin()"
+        >Login</el-button
+      >
+      <el-button v-if="userData" type="primary" @click="logoutFromFirebase()"
+        >Logout</el-button
+      >
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: "UserMenu",
+  methods: {
+    goToLogin() {
+      this.$router.push("/user/login");
+    },
+    logoutFromFirebase() {
+      this.$store.dispatch("signOutAction");
+    },
+  },
+  computed: {
+    userData() {
+      if (this.$store.getters.user) {
+        return this.$store.getters.user?.multiFactor?.user;
+      } else {
+        return null;
+      }
+    },
+  },
 };
 </script>

@@ -50,10 +50,13 @@
 </template>
 
 <script>
+import firebase from "firebase/compat/app";
+
 export default {
   name: "UserDataTable",
   data() {
     return {
+      usersData: [],
       tableData: [
         {
           id: "1234",
@@ -124,6 +127,43 @@ export default {
       this.multipleSelection = val;
       console.log(val);
     },
+    getUsersData() {
+      firebase
+        .firestore()
+        .collection("users")
+        .doc(firebase.auth().currentUser.uid)
+        .get()
+        .then((doc) => {
+          this.usersData = doc.data();
+        });
+    },
+    async getUsersTableData() {
+      try {
+        var usertabledata = {};
+
+        // Get Users Data
+        var resRef = firebase.firestore().collection("users");
+        var resSnap = await resRef.doc().get();
+        usertabledata = resSnap.data();
+        usertabledata.id = resSnap.id;
+        console.log(usertabledata);
+
+        return usertabledata;
+      } catch (e) {
+        return {
+          errorMsg: "Something went wrong. Please Try Again.",
+        };
+      }
+    },
+  },
+  created() {
+    this.getUsersTableData().then((response) => {
+      if (response && response.errorMsg) {
+        this.error = response.errorMsg;
+      } else {
+        this.usertabledata = response;
+      }
+    });
   },
 };
 </script>
