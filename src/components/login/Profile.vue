@@ -17,6 +17,11 @@
           placeholder="PhotoUrl"
           v-model="userProfile.photoURL"
         ></el-input>
+        <el-input
+          placeholder="Fecha Nacimiento"
+          v-model="userProfile.fnac"
+        ></el-input>
+        <el-input placeholder="Nombre" v-model="userProfile.nombre"></el-input>
         <el-input placeholder="Peso" v-model="userProfile.peso"></el-input>
         <el-input placeholder="Altura" v-model="userProfile.altura"></el-input>
       </div>
@@ -65,9 +70,13 @@ export default {
           email: this.userProfile.email,
           phoneNumber: this.userProfile.phoneNumber,
           photoURL: this.userProfile.photoURL,
+          nombre: this.userProfile.name,
+          fnac: this.userProfile.fnac,
           displayName: this.userProfile.displayName,
           peso: this.userProfile.peso,
           altura: this.userProfile.altura,
+          id: Date.now(),
+          uid: firebase.auth().currentUser.uid,
         });
     },
   },

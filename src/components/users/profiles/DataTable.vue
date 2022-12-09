@@ -27,7 +27,7 @@
             usersData.filter(
               (data) =>
                 !search ||
-                data.email.toLowerCase().includes(search.toLowerCase())
+                data.nombre.toLowerCase().includes(search.toLowerCase())
             )
           "
           :default-sort="{ prop: 'id', order: 'ascending' }"
@@ -36,29 +36,20 @@
         >
           <el-table-column type="selection"> </el-table-column>
           <el-table-column prop="id" label="ID" sortable> </el-table-column>
-          <el-table-column property="email" label="Email" sortable>
+          <el-table-column property="nombre" label="Nombre" sortable>
           </el-table-column>
-          <el-table-column property="phoneNumber" label="Teléfono" sortable>
+          <el-table-column property="fnac" label="F.Nacimiento" sortable>
           </el-table-column>
-          <el-table-column property="tipo_cuenta" label="Tipo" sortable>
+          <el-table-column property="peso" label="Peso (kg)" sortable>
             <template slot-scope="scope">
               <el-tag
-                :type="
-                  scope.row.tipo_cuenta === 'premium' ? 'success' : 'primary'
-                "
+                :type="scope.row.peso < '80' ? 'success' : 'primary'"
                 disable-transitions
-                >{{ scope.row.tipo_cuenta }}</el-tag
+                >{{ scope.row.peso }}</el-tag
               >
             </template>
           </el-table-column>
-          <el-table-column property="rol" label="Rol" sortable>
-            <template slot-scope="scope">
-              <el-tag
-                :type="scope.row.rol === 'admin' ? 'warning' : 'primary'"
-                disable-transitions
-                >{{ scope.row.rol }}</el-tag
-              >
-            </template>
+          <el-table-column property="altura" label="Altura (cm)" sortable>
           </el-table-column>
         </el-table>
         <div style="margin-top: 20px"></div>
@@ -69,14 +60,18 @@
 
 <script>
 import firebase from "firebase/compat/app";
+import { collection, getDocs } from "firebase/firestore";
+
+const db = firebase.firestore();
 
 export default {
-  name: "UserDataTable",
+  name: "ProfileDataTable",
   data() {
     return {
       usersData: [],
       multipleSelection: [],
       search: "",
+      userProfiles: [],
     };
   },
 
@@ -95,17 +90,19 @@ export default {
       console.log(val);
     },
     async getUsersTableData() {
-      try {
-        const { docs } = await firebase.firestore().collection("users").get();
+      const profilesRef = await db.collection("users").get();
 
-        this.usersData = docs.map((doc) => {
-          const { id } = doc;
-          const data = doc.data();
-          return { id, ...data };
-        });
-      } catch (error) {
-        throw new Error("Something gone wrong!");
-      }
+      profilesRef.forEach((doc) => {
+        this.getUserProfile(doc.id);
+      });
+    },
+    async getUserProfile(id) {
+      const queryProfile = await getDocs(
+        collection(db, "users/" + id + "/Perfiles")
+      );
+      queryProfile.forEach((doc) => {
+        this.usersData.push(doc.data());
+      });
     },
   },
   created() {

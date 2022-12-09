@@ -17,10 +17,22 @@
         <i v-if="isCollapse" class="el-icon-s-unfold"></i>
         <i v-if="!isCollapse" class="el-icon-s-fold"></i>
       </button>
-      <el-menu-item index="1" route="/users">
-        <i class="el-icon-user"></i>
-        <span slot="title">Usuarios</span>
-      </el-menu-item>
+      <el-submenu index="1">
+        <template slot="title">
+          <i class="el-icon-user"></i>
+          <span slot="title">Usuarios</span>
+        </template>
+        <el-menu-item-group>
+          <el-menu-item index="1-1" route="/users">
+            <i class="el-icon-user"></i>
+            <span slot="title">Usuarios</span>
+          </el-menu-item>
+          <el-menu-item index="1-2" route="/users/profiles">
+            <i class="el-icon-user-solid"></i>
+            <span slot="title">Perfiles</span>
+          </el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
       <el-submenu index="2">
         <template slot="title">
           <i class="el-icon-takeaway-box"></i>
@@ -30,7 +42,9 @@
           <el-menu-item index="2-1">Recetas</el-menu-item>
           <el-menu-item index="2-2">Acciones</el-menu-item>
           <el-menu-item index="2-3">Utensilios</el-menu-item>
-          <el-menu-item index="2-4">Alimentos</el-menu-item>
+          <el-menu-item index="2-4" route="/recipes/ingredients"
+            >Alimentos</el-menu-item
+          >
         </el-menu-item-group>
       </el-submenu>
       <el-menu-item index="3">

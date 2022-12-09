@@ -4,7 +4,7 @@
       <side-nav />
       <div class="flex w-full flex-col">
         <user-menu />
-        <router-view />
+        <router-view @rerender="rerender" :key="componentKey" />
       </div>
     </div>
   </div>
@@ -17,6 +17,16 @@ export default {
   components: {
     SideNav,
     UserMenu,
+  },
+  data() {
+    return {
+      componentKey: 0,
+    };
+  },
+  methods: {
+    rerender(value) {
+      this.componentKey = value;
+    },
   },
 };
 </script>

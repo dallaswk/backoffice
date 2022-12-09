@@ -23,13 +23,33 @@ const routes = [
     path: "/crud",
     name: "CRUD",
     component: () =>
-      import(/* webpackChunkName: "crudview" */ "../views/CrudView.vue"),
+      import(
+        /* webpackChunkName: "crudview" */ "../components/users/profiles/DataTable.vue"
+      ),
   },
   {
     path: "/users",
     name: "Usuarios",
     component: () =>
-      import(/* webpackChunkName: "usercrud" */ "../views/UserCrudView.vue"),
+      import(
+        /* webpackChunkName: "usercrud" */ "../components/users/DataTable.vue"
+      ),
+  },
+  {
+    path: "/users/new",
+    name: "Nuevo Usuario",
+    component: () =>
+      import(
+        /* webpackChunkName: "newuser" */ "../components/users/NewUser.vue"
+      ),
+  },
+  {
+    path: "/users/profiles",
+    name: "Perfiles",
+    component: () =>
+      import(
+        /* webpackChunkName: "profiles" */ "../components/users/profiles/DataTable.vue"
+      ),
   },
   {
     path: "/user/login",
@@ -49,6 +69,22 @@ const routes = [
     component: () =>
       import(
         /* webpackChunkName: "profile" */ "../components/login/Profile.vue"
+      ),
+  },
+  {
+    path: "/recipes/ingredients",
+    name: "Ingredientes",
+    component: () =>
+      import(
+        /* webpackChunkName: "ingredients" */ "../components/recipes/Ingredients/DataTable.vue"
+      ),
+  },
+  {
+    path: "/recipes/ingredients/new",
+    name: "Nuevo Ingrediente",
+    component: () =>
+      import(
+        /* webpackChunkName: "newingredient" */ "../components/recipes/Ingredients/NewIngredient.vue"
       ),
   },
 ];
