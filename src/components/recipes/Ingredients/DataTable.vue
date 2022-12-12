@@ -63,14 +63,14 @@
               <el-button
                 size="mini"
                 @click="handleEdit(scope.$index, scope.row)"
-                >Editar</el-button
-              >
+                ><i class="el-icon-edit"></i>
+              </el-button>
               <el-button
                 size="mini"
                 type="danger"
                 @click="handleDelete(scope.$index, scope.row)"
-                >Eliminar</el-button
-              >
+                ><i class="el-icon-delete"></i
+              ></el-button>
             </template>
           </el-table-column>
         </el-table>

@@ -10,27 +10,72 @@
           <el-input
             placeholder="Nombre"
             v-model="IngredientData.nombre"
+            size="medium"
           ></el-input>
           <el-input
             placeholder="Nombre científico"
             v-model="IngredientData.nombreCientifico"
-          ></el-input>
-          <el-input
-            placeholder="% Parte comestible"
-            v-model="IngredientData.parteComestible"
+            size="medium"
           ></el-input>
           <el-input
             placeholder="Foto"
             v-model="IngredientData.photoURL"
+            size="medium"
           ></el-input>
           <el-input
             placeholder="Código Foodex"
             v-model="IngredientData.codigoFoodex"
+            size="medium"
           ></el-input>
           <el-input
             placeholder="Descripción"
+            type="textarea"
+            autosize
             v-model="IngredientData.descripcion"
+            size="medium"
           ></el-input>
+          <el-input-number
+            v-model="IngredientData.parteComestible"
+            placeholder="% Parte comestible"
+            :min="0"
+            :max="100"
+            size="medium"
+          ></el-input-number>
+
+          <div v-for="(item, index) in Componentes" :key="index">
+            <el-select v-model="item.tipo" placeholder="Tipo">
+              <el-option
+                v-for="item in tipoComponentes"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+            <el-button @click="AddField">+</el-button>
+          </div>
+          <!-- <div v-for="(item, index) in Componentes" :key="index">
+            <el-input
+              placeholder="Nombre"
+              v-model="item.nombre"
+              size="medium"
+            ></el-input>
+            <el-input
+              placeholder="Fuente"
+              v-model="item.fuente"
+              size="medium"
+            ></el-input>
+            <el-input
+              placeholder="Unidad"
+              v-model="item.unidad"
+              size="medium"
+            ></el-input>
+            <el-input
+              placeholder="Valor"
+              v-model="item.valor"
+              size="medium"
+            ></el-input>
+          </div> -->
         </div>
         <el-button native-type="submit">Crear Ingrediente</el-button>
       </form>
@@ -52,14 +97,38 @@ export default {
         descripcion: "",
         codigoFoodex: "",
         photoURL: "",
+        informacion: {},
       },
+      Componentes: [
+        {
+          tipo: "",
+        },
+      ],
+      tipoComponentes: [
+        {
+          value: "grasas",
+          label: "Grasas",
+        },
+        {
+          value: "hidratosdecarbono",
+          label: "Hidratos de Carbono",
+        },
+        {
+          value: "minerales",
+          label: "Minerales",
+        },
+        {
+          value: "proximales",
+          label: "Proximales",
+        },
+        {
+          value: "vitaminas",
+          label: "Vitaminas",
+        },
+      ],
     };
   },
-  computed: {
-    userID() {
-      return Date.now();
-    },
-  },
+  computed: {},
   methods: {
     newIngredient() {
       firebase
@@ -84,6 +153,11 @@ export default {
           };
           this.$router.push({ path: "/recipes/ingredients" });
         });
+    },
+    AddField: function () {
+      this.Componentes.push({
+        tipo: "",
+      });
     },
   },
 };
